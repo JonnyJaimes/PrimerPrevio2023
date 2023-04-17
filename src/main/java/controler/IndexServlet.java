@@ -118,8 +118,8 @@ public class IndexServlet extends HttpServlet {
 			throws ServletException, IOException {
 		PacienteDao eDao = new PacienteDao();
 		List<Paciente> list = eDao.list();
-		request.setAttribute("listEleccion", list);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("CandidatoUFPS.jsp");
+		request.setAttribute("listPaciente", list);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("paciente.jsp");
 		dispatcher.forward(request, response);
 	}
 	
