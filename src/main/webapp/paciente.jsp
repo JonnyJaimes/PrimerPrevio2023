@@ -1,4 +1,4 @@
- page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -75,51 +75,44 @@
 						class="form-control" name="apellido" required="required">
 				</fieldset>
 				<fieldset class="form-group">
-					<label>Apellido</label> <input type="text"
+					<label>email</label> <input type="text"
 						value="<c:out value='${paciente.email}'/>"
 						class="form-control" name="apellido" required="required">
 				</fieldset>
 					<fieldset class="form-group">
-					<label>Apellido</label> <input type="text"
+					<label>genero</label> <input type="text"
 						value="<c:out value='${paciente.genero}'/>"
 						class="form-control" name="apellido" required="required">
 				</fieldset>
 				
 					<fieldset class="form-group">
-					<label>Apellido</label> <input type="text"
+					<label>fecha</label> <input type="text"
 						value="<c:out value='${paciente.fechanacimiento}'/>"
 						class="form-control" name="apellido" required="required">
 				</fieldset>
 					<fieldset class="form-group">
-					<label>Apellido</label> <input type="text"
+					<label>telefono</label> <input type="text"
 						value="<c:out value='${paciente.telefono}'/>"
 						class="form-control" name="apellido" required="required">
 				</fieldset>
 					<fieldset class="form-group">
-					<label>Apellido</label> <input type="text"
+					<label>direccion</label> <input type="text"
 						value="<c:out value='${paciente.direccion}'/>"
 						class="form-control" name="apellido" required="required">
 				</fieldset>
 					<fieldset class="form-group">
-					<label>Apellido</label> <input type="text"
+					<label>peso</label> <input type="text"
 						value="<c:out value='${paciente.peso}'/>"
 						class="form-control" name="apellido" required="required">
 				</fieldset>
 					<fieldset class="form-group">
-					<label>Apellido</label> <input type="text"
+					<label>estatura</label> <input type="text"
 						value="<c:out value='${paciente.estatura}'/>"
 						class="form-control" name="apellido" required="required">
 				</fieldset>
 
 
-				<fieldset class="form-group">
-					<label>Paciente</label> <select class="form-select" name="eleccion">
-						<option selected>Seleccione Una</option>
-						<c:forEach var="dd" items="${listPaciente}">
-							<option value='${dd.id}'>"${dd.nombre}"</option>
-						</c:forEach>
-					</select>
-				</fieldset>
+				
 
 				
 
