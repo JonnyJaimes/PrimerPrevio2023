@@ -1,7 +1,10 @@
 package controler;
 
 import java.io.IOException;
+import java.util.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,15 +14,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.Dao.CandidatoDao;
-import com.Dao.*;
-import com.entidades.*;
+
+import Dao.PacienteDao;
+import Entidades.Paciente;
 
 @WebServlet("/")
 public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private CandidatoDao dao;
+	private PacienteDao dao;
 
 	public IndexServlet() {
 	}
@@ -28,7 +31,7 @@ public class IndexServlet extends HttpServlet {
 	/// Method
 	////////////////////////////////////////////////
 	public void init() throws ServletException {
-		dao = new CandidatoDao();
+		dao = new PacienteDao();
 	}
 
 	////////////////////////////////////////////////
@@ -78,6 +81,21 @@ public class IndexServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 	}
+	
+	private void showEdit(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, SQLException {
+		String id = request.getParameter("id");
+		if (dao == null) {
+			this.init();
+		}
+		Paciente c =  dao.find(id);
+		PacienteDao eDao = new PacienteDao();
+		List<Paciente> list = eDao.list();
+		request.setAttribute("list", list);
+		request.setAttribute("Paciente", c);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("Paciente.jsp");
+		dispatcher.forward(request, response);
+	}
 
 	////////////////////////////////////////////////
 	/// Method
@@ -90,40 +108,50 @@ public class IndexServlet extends HttpServlet {
 		}
 		System.out.println(eleccion);
 
-		List<CandidatoUFPS> list = (eleccion != null) ? dao.list(eleccion) : dao.list();
+		List<Paciente> list = (eleccion != null) ? dao.list(eleccion) : dao.list();
 		request.setAttribute("listCandidato", list);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("CandidatoList.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("PacienteList.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	private void showViewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		EleccionDao eDao = new EleccionDao();
-		List<Eleccion> list = eDao.list();
+		PacienteDao eDao = new PacienteDao();
+		List<Paciente> list = eDao.list();
 		request.setAttribute("listEleccion", list);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("CandidatoUFPS.jsp");
 		dispatcher.forward(request, response);
 	}
+	
+	
 
 	private void insert(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException {
+			throws SQLException, IOException, ServletException, ParseException {
 		
 		String id = request.getParameter("id");
 		String documento = request.getParameter("documento");
 		String nombre = request.getParameter("nombre");
 		String apellido = request.getParameter("apellido");
-		String eleccion = request.getParameter("eleccion");
-		String numero = request.getParameter("numero");
+		String email = request.getParameter("email");
+		String genero = request.getParameter("genero");
+	    String fechanacimiento= request.getParameter("fechanacimiento");
+		String telefono = request.getParameter("telefono");
+		String direccion = request.getParameter("direccion");
+		String peso = request.getParameter("peso");
+		String estatura = request.getParameter("estatura");
+		 
+	    Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(fechanacimiento);  
+	    System.out.println(fechanacimiento+"\t"+date1);
 		
 		System.out.println(id);
 		System.out.println(documento);
 		System.out.println(nombre);
 		System.out.println(apellido);
-		System.out.println(eleccion);
-		System.out.println(numero);
+	
+	
 
-		CandidatoUFPS c = new CandidatoUFPS(Integer.parseInt(id), documento, nombre, apellido, Integer.parseInt(eleccion),
-				Integer.parseInt(numero));
+		Paciente c = new Paciente(Integer.parseInt(id), documento, nombre, apellido,email,genero, date1,telefono,direccion,Double.parseDouble(peso),
+			Double.parseDouble(estatura));
 		if (dao == null) {
 			init();
 		}
@@ -132,19 +160,27 @@ public class IndexServlet extends HttpServlet {
 		response.sendRedirect("list");
 	}
 
-	private void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+	private void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, ParseException {
 		String id = request.getParameter("id");
 		String documento = request.getParameter("documento");
 		String nombre = request.getParameter("nombre");
 		String apellido = request.getParameter("apellido");
-		String eleccion = request.getParameter("eleccion");
-		String numero = request.getParameter("numero");
-		CandidatoUFPS c = new CandidatoUFPS(Integer.parseInt(id), documento, nombre, apellido, Integer.parseInt(eleccion),
-				Integer.parseInt(numero));
+		String email = request.getParameter("email");
+		String genero = request.getParameter("genero");
+	    String fechanacimiento= request.getParameter("fechanacimiento");
+		String telefono = request.getParameter("telefono");
+		String direccion = request.getParameter("direccion");
+		String peso = request.getParameter("peso");
+		String estatura = request.getParameter("estatura");
+		
+		Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(fechanacimiento);  
+	    System.out.println(fechanacimiento+"\t"+date1);
+		Paciente Pa = new Paciente(Integer.parseInt(id), documento, nombre, apellido,email,genero, date1,telefono,direccion,Double.parseDouble(peso),
+				Double.parseDouble(estatura));
 		if (dao == null) {
 			this.init();
 		}
-		dao.update(c);
+		dao.update(Pa);
 		response.sendRedirect("list");
 	}
 
@@ -157,19 +193,6 @@ public class IndexServlet extends HttpServlet {
 		response.sendRedirect("list");
 	}
 
-	private void showEdit(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, SQLException {
-		String id = request.getParameter("id");
-		if (dao == null) {
-			this.init();
-		}
-		CandidatoUFPS c =  dao.find(id);
-		EleccionDao eDao = new EleccionDao();
-		List<Eleccion> list = eDao.list();
-		request.setAttribute("listEleccion", list);
-		request.setAttribute("CandidatoUFPS", c);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("CandidatoUFPS.jsp");
-		dispatcher.forward(request, response);
-	}
+	
 
 }

@@ -19,11 +19,15 @@ public class Paciente  implements Serializable {
 	@Column
 		 private Integer id;
 	@Column
+	 private String documento;
+	
+	
+	@Column
 		 private String nombre;
 	@Column
 		private String apellido;
 	@Column
-		 private String correo;
+		 private String Email;
 	@Column
 		private String genero;
 	@Column
@@ -39,19 +43,31 @@ public class Paciente  implements Serializable {
 	
 	public Paciente() {}
 	
-	public Paciente(Integer id, String nombre, String apellido, String correo, String genero, Date fechanacimiento,
+	public Paciente(Integer id,String documento, String nombre, String apellido, String Email, String genero, Date fechanacimiento,
 			String telefono, String direccion, Double peso, Double estatura) {
 		super();
 		this.id = id;
+		this.documento=documento;
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.correo = correo;
+		this.Email = Email;
 		this.genero = genero;
 		this.fechanacimiento = fechanacimiento;
 		this.telefono = telefono;
 		this.direccion = direccion;
 		this.peso = peso;
 		this.estatura = estatura;
+	}
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String i) {
+		this.documento = i;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	public Integer getId() {
 		return id;
@@ -71,11 +87,11 @@ public class Paciente  implements Serializable {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	public String getCorreo() {
-		return correo;
+	public String getEmail() {
+		return Email;
 	}
-	public void setCorreo(String correo) {
-		this.correo = correo;
+	public void setEmail(String Email) {
+		this.Email = Email;
 	}
 	public String getGenero() {
 		return genero;
